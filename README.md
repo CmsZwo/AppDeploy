@@ -72,7 +72,7 @@ will be dynamicalle merged.
 
 ## Configuration
 Configuration is stored in `.deployment` files. Files are text formatted. 
-`[Tabulator] characters are impotant.`
+`[tab] characters are impotant.`
 Keep in mind: passwords are stored in `clear text` for now. 
 That could change in future.
 
