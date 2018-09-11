@@ -56,19 +56,18 @@ will be dynamicalle merged.
 ```
 /my-projects
 
-  - project-1
-    - ... project files
-  - .deployment
+  /project-1
+    ...project files
+    .deployment
 
-  - project-2
-    - ... project files
-  - .deployment
+  /project-2
+    ...project files
+    .deployment
 
-  - ... more projects
+  /...more projects
 
-  - .deployment
+  .deployment
 ```
-
 
 ## Configuration
 Configuration is stored in `.deployment` files. Files are text formatted. 
