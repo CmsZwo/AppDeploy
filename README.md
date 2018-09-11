@@ -36,13 +36,13 @@ AppDeploy helps you uploading your project to servers.
 ## Filestructure
 AppDeploy looks for `.deployment` files in two ways. 
 
-###Traverses up the working directory###
+### Traverses up the working directory
 
 Finding the first available `.deployment` file. This file should hold common 
 platform specific configuration for exclude and also shared credentials to 
 servers which is not project specific.
 
-###Traverses down the working directory###
+### Traverses down the working directory
 
 Finding all available `.deployment` files in subfolders. These files should 
 contain project specific configuration.
@@ -56,17 +56,17 @@ will be dynamicalle merged.
 ```
 /my-projects
 
-	- project-1
-		- ... project files
-		- .deployment
+  - project-1
+    - ... project files
+  - .deployment
 
-	- project-2
-		- ... project files
-		- .deployment
+  - project-2
+    - ... project files
+  - .deployment
 
-	- ... more projects
+  - ... more projects
 
-	- .deployment
+  - .deployment
 ```
 
 
