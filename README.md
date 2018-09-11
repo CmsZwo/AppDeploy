@@ -37,14 +37,14 @@ AppDeploy helps you uploading your project to servers.
 AppDeploy looks for ´.deployment´ files in two ways. 
 
 ```
-*1. Traverses up the working directory.*
+**1. Traverses up the working directory.**
 Finding the first available ´.deployment´ file. This file should hold common 
 platform specific configuration for exclude and also shared credentials to 
 servers which is not project specific.
 ```
 
 ```
-*2. Traverses down the working directory.*
+**2. Traverses down the working directory.**
 Finding all available ´.deployment´ files in subfolders. These files should 
 contain project specific configuration.
 ```
