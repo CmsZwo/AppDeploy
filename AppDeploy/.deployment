@@ -1,0 +1,54 @@
+﻿# ftp server configuration
+ftp: server1
+	host: [server]
+	user: [user]
+	password: [password]
+
+ftp: server2
+	host: [server]
+	user: [user]
+	password: [password]
+
+ftp: server3
+	host: [server]
+	user: [user]
+	password: [password]
+
+# files and folders not to be included
+exclude: webproject
+	_notes
+	.git, .*
+
+	bin/*.pdb, bin/*.xml, bin/*.config
+
+	*.csproj, *.cs, *.user
+	Connected Services/, Properties/, obj/
+
+# files and folders to include anyway
+# no wildcards allowed
+pick: my
+	file
+	directory/
+
+# define target to deploy to
+target: project
+	ftp: server1, server2
+	exclude: webproject
+	pick: my
+	directory: [directory/]
+	ok: https://my-domain/ready
+
+# define target to deploy to
+target: project-test
+	ftp: server3
+	exclude: webproject
+	pick: my
+	directory: [directory-test/]
+
+# define batch to execute
+batch: dev
+	# first target
+	target: project
+
+	# second target
+	target: project-test
