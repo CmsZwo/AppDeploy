@@ -34,26 +34,46 @@ AppDeploy helps you uploading your project to servers.
 - FTP
 
 ## Filestructure
-AppDeploy looks for ´.deployment´ files in two ways. 
+AppDeploy looks for `.deployment` files in two ways. 
 
-**Traverses up the working directory.**
+###Traverses up the working directory###
 
-Finding the first available ´.deployment´ file. This file should hold common 
+Finding the first available `.deployment` file. This file should hold common 
 platform specific configuration for exclude and also shared credentials to 
 servers which is not project specific.
 
-**Traverses down the working directory.**
+###Traverses down the working directory###
 
-Finding all available ´.deployment´ files in subfolders. These files should 
+Finding all available `.deployment` files in subfolders. These files should 
 contain project specific configuration.
 
-If you select a project the common and the project specific ´.deployment´ file 
-will be dynamicalle merged.
+If you select a project the common and the project specific `.deployment` file 
+will be dynamicalle merged. 
+
+> Having the common `.deployment` is not required. You can just only use a project specific `.deployment` file.
+
+### Example
+```
+/my-projects
+
+	- project-1
+		- ... project files
+		- .deployment
+
+	- project-2
+		- ... project files
+		- .deployment
+
+	- ... more projects
+
+	- .deployment
+```
+
 
 ## Configuration
-Configuration is stored in ´.deployment´ files. Files are text formatted. 
-´[Tabulator] characters are impotant.´
-Keep in mind: passwords are stored in ´clear text´ for now. 
+Configuration is stored in `.deployment` files. Files are text formatted. 
+`[Tabulator] characters are impotant.`
+Keep in mind: passwords are stored in `clear text` for now. 
 That could change in future.
 
 ### exclude
@@ -129,7 +149,7 @@ batch: dev
 ## Special Commands
 
 ### Apply current state
-Will write ´.lastrun´ file to remote root folder. Information will state that all files are up to date. Running a profile will not upload any files until next change.
+Will write `.lastrun` file to remote root folder. Information will state that all files are up to date. Running a profile will not upload any files until next change.
 
 ### Reset state
-Will delete ´.lastrun´ file from remote root folder. Running profile will cause full upload.
+Will delete `.lastrun` file from remote root folder. Running profile will cause full upload.
