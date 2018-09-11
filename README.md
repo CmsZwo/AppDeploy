@@ -38,19 +38,25 @@ AppDeploy looks for ´.deployment´ files in two ways.
 
 ```
 *1. Traverses up the working directory.*
-Finding the first available ´.deployment´ file. This file should hold common platform specific configuration for exclude and also shared credentials to servers which is not project specific.
+Finding the first available ´.deployment´ file. This file should hold common 
+platform specific configuration for exclude and also shared credentials to 
+servers which is not project specific.
 ```
 
 ```
 *2. Traverses down the working directory.*
-Finding all available ´.deployment´ files in subfolders. These files should contain project specific configuration.
+Finding all available ´.deployment´ files in subfolders. These files should 
+contain project specific configuration.
 ```
 
-If you select a project the common and the project specific ´.deployment´ file will be dynamicalle merged.
+If you select a project the common and the project specific ´.deployment´ file 
+will be dynamicalle merged.
 
 ## Configuration
-Configuration is stored in ´.deployment´ files. Files are text formatted. ´[Tabulator] characters are impotant.´
-Keep in mind: passwords are stored in ´clear text´ for now. That could change in future.
+Configuration is stored in ´.deployment´ files. Files are text formatted. 
+´[Tabulator] characters are impotant.´
+Keep in mind: passwords are stored in ´clear text´ for now. 
+That could change in future.
 
 ### exclude
 Sets filters for files or folders to be excluded. Wildcards are allowed here.
@@ -67,7 +73,8 @@ exclude: webproject
 ```
 
 ### pick
-Sets files or folders (recursively) to be included. Ommits exclude filters. No wildcards allowed here.
+Sets files or folders (recursively) to be included. Ommits exclude filters. 
+No wildcards allowed here.
 
 ```
 pick: my
@@ -76,11 +83,12 @@ pick: my
 ```
 
 # FTP Deployment
-Running a deployment to ftp will only upload files that were modified or created since last time.
+Running a deployment to ftp will only upload files 
+that were modified or created since last time.
 
 ## Configuration
 
-### server
+### ftp
 Sets information for connecting to your ftp server.
 
 ```
@@ -107,7 +115,9 @@ target: project
 - exclude: You can specify multiple exclude filters.
 - pick: You can specify multiple pick lists.
 - directory: You can specify a sub directory on you ftp.
-- ok: After each server this url will be called. AppDeploy waits until Url return HTTP 200. This is useful if you deploy a load balanced scenario.
+- ok: After each server this url will be called. AppDeploy waits until Url return HTTP 200. 
+
+ok is useful if you deploy a load balanced scenario.
 
 ### batch
 Definies a batch of multiple targets to be executed on after another.
@@ -123,5 +133,5 @@ batch: dev
 ### Apply current state
 Will write ´.lastrun´ file to remote root folder. Information will state that all files are up to date. Running a profile will not upload any files until next change.
 
-### reset state
+### Reset state
 Will delete ´.lastrun´ file from remote root folder. Running profile will cause full upload.
