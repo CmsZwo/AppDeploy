@@ -1,5 +1,5 @@
 # AppDeploy
-Simple console based tool for deploying Applications
+Simple console based tool for deploying applications
 
 ```
 Written in C# with .netcore 2.1
@@ -99,7 +99,7 @@ pick: my
 	directory/
 ```
 
-# FTP Deployment
+# FTP deployment
 Running a deployment to ftp will only upload files 
 that were modified or created since last time.
 
