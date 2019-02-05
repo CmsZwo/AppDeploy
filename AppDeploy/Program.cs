@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 
 using DeployLib;
 
@@ -56,42 +55,39 @@ namespace AppDeploy
 			{
 				printMenu();
 
-				while(true)
+				var input = inputHelper.ReadInput(
+					config.Batch.Count,
+					new[] { ConsoleKey.Escape, ConsoleKey.A, ConsoleKey.R }
+				);
+
+				if (input.Key == ConsoleKey.Escape)
 				{
-					var input = inputHelper.ReadInput(
-						config.Batch.Count,
-						new[] { ConsoleKey.Escape, ConsoleKey.A, ConsoleKey.R }
-					);
-
-					if (input.Key == ConsoleKey.Escape)
-					{
-						Pause();
-						break;
-					}
-
-					if (input.Key == ConsoleKey.A)
-					{
-						batchOption = BatchOption.ApplyCurrentState;
-						continue;
-					}
-
-					else if (input.Key == ConsoleKey.R)
-					{
-						batchOption = BatchOption.ResetState;
-						continue;
-					}
-
-					if (!input.Number.HasValue)
-						continue;
-
-					var batchIndex = GetIndex(input.Number.Value);
-					var batch = config.Batch.GetKeySorted().ElementAt(batchIndex).Value;
-					console.WriteLine("");
-
-					await ProcessBatchAsync(batch, batchOption);
-					batchOption = BatchOption.None;
 					Pause();
+					break;
 				}
+
+				if (input.Key == ConsoleKey.A)
+				{
+					batchOption = BatchOption.ApplyCurrentState;
+					continue;
+				}
+
+				else if (input.Key == ConsoleKey.R)
+				{
+					batchOption = BatchOption.ResetState;
+					continue;
+				}
+
+				if (!input.Number.HasValue)
+					continue;
+
+				var batchIndex = GetIndex(input.Number.Value);
+				var batch = config.Batch.GetKeySorted().ElementAt(batchIndex).Value;
+				console.WriteLine("");
+
+				await ProcessBatchAsync(batch, batchOption);
+				batchOption = BatchOption.None;
+				Pause();
 			}
 		}
 

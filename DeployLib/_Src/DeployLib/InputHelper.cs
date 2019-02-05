@@ -34,7 +34,10 @@ namespace DeployLib
 				var isAcceptedKey
 					= acceptedKeys.Any(x => key.Key == x) == true;
 
-				if (isAcceptedKey)
+				var isNumber
+					= int.TryParse(key.KeyChar.ToString(), out var number);
+
+				if (isAcceptedKey || isNumber)
 					return key;
 			}
 		}
