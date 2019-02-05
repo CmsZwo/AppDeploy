@@ -4,16 +4,22 @@ namespace DeployLib
 {
 	public interface IOutputConsole
 	{
+		ConsoleKeyInfo ReadKey();
+
 		void Write(string message);
 		void WriteLine(string message);
 		void WriteUnderline(string message);
 
 		void Clear();
+		void ClearKey();
 		void ClearLine();
 	}
 
 	public class OutputConsole : IOutputConsole
 	{
+		public ConsoleKeyInfo ReadKey()
+			=> Console.ReadKey();
+
 		private int _MaxConsoleMessageLength
 			=> Console.WindowWidth - 1;
 
@@ -33,6 +39,13 @@ namespace DeployLib
 
 		public void Clear()
 			=> Console.Clear();
+
+		public void ClearKey()
+		{
+			Console.Write("\b");
+			Console.Write(" ");
+			Console.Write("\b");
+		}
 
 		public void ClearLine()
 		{
