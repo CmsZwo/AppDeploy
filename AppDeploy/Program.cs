@@ -12,35 +12,13 @@ namespace AppDeploy
 		static void Main(string[] args)
 			=> MainAsync(args).GetAwaiter().GetResult();
 
-		static ConsoleKeyInfo ReadKey(int maxNumber, IEnumerable<ConsoleKey> acceptedKeys = null)
-		{
-			var console = Container.Shared.Get<IOutputConsole>();
-
-			while (true)
-			{
-				var key = Console.ReadKey();
-				console.ClearLine();
-
-				var parsed =
-					int.TryParse(
-						key.KeyChar.ToString(),
-						out int number
-					);
-
-				if (number > 0 && number <= maxNumber)
-					return key;
-
-				if (acceptedKeys?.Any(x => key.Key == x) == true)
-					return key;
-			}
-		}
-
-		static int GetIndex(ConsoleKeyInfo key)
-			=> int.Parse(key.KeyChar.ToString()) - 1;
+		static int GetIndex(int inputNumber)
+			=> inputNumber - 1;
 
 		static async Task ServeBatchMenu(Config config)
 		{
 			var console = Container.Shared.Get<IOutputConsole>();
+			var inputHelper = Container.Shared.Get<IInputHelper>();
 
 			var batchOption = BatchOption.None;
 
@@ -78,42 +56,49 @@ namespace AppDeploy
 			{
 				printMenu();
 
-				var key = ReadKey(
-					config.Batch.Count,
-					new[] { ConsoleKey.Escape, ConsoleKey.A, ConsoleKey.R }
-				);
-
-				if (key.Key == ConsoleKey.Escape)
+				while(true)
 				{
+					var input = inputHelper.ReadInput(
+						config.Batch.Count,
+						new[] { ConsoleKey.Escape, ConsoleKey.A, ConsoleKey.R }
+					);
+
+					if (input.Key == ConsoleKey.Escape)
+					{
+						Pause();
+						break;
+					}
+
+					if (input.Key == ConsoleKey.A)
+					{
+						batchOption = BatchOption.ApplyCurrentState;
+						continue;
+					}
+
+					else if (input.Key == ConsoleKey.R)
+					{
+						batchOption = BatchOption.ResetState;
+						continue;
+					}
+
+					if (!input.Number.HasValue)
+						continue;
+
+					var batchIndex = GetIndex(input.Number.Value);
+					var batch = config.Batch.GetKeySorted().ElementAt(batchIndex).Value;
+					console.WriteLine("");
+
+					await ProcessBatchAsync(batch, batchOption);
+					batchOption = BatchOption.None;
 					Pause();
-					break;
 				}
-
-				if (key.Key == ConsoleKey.A)
-				{
-					batchOption = BatchOption.ApplyCurrentState;
-					continue;
-				}
-
-				else if (key.Key == ConsoleKey.R)
-				{
-					batchOption = BatchOption.ResetState;
-					continue;
-				}
-
-				var batchIndex = GetIndex(key);
-				var batch = config.Batch.GetKeySorted().ElementAt(batchIndex).Value;
-				console.WriteLine("");
-
-				await ProcessBatchAsync(batch, batchOption);
-				batchOption = BatchOption.None;
-				Pause();
 			}
 		}
 
 		static void ServeProjectMenu()
 		{
 			var console = Container.Shared.Get<IOutputConsole>();
+			var inputHelper = Container.Shared.Get<IInputHelper>();
 			var rootHelper = Container.Shared.Get<IRootHelper>();
 			var projectEnumerator = Container.Shared.Get<IProjectEnumerator>();
 
@@ -153,15 +138,15 @@ namespace AppDeploy
 			{
 				printMenu();
 
-				var key = ReadKey(projectDirectories.Count);
+				var input = inputHelper.ReadInput(projectDirectories.Count);
 
-				if (key.Key == ConsoleKey.Escape)
+				if (input.Key == ConsoleKey.Escape)
 				{
 					Pause();
 					break;
 				}
 
-				var index = GetIndex(key);
+				var index = GetIndex(input.Number.Value);
 				var root = projectDirectories[index];
 				rootHelper.SetRoot(root);
 				console.WriteLine("");
